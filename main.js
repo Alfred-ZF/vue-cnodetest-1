@@ -1,67 +1,82 @@
 var app = new Vue({
   el: '#app',
   data: {
-    date: new Date(),
-    numberbutton: 0,
-    className: 'nameChanged',
-    apple: '你好啊Vue',
-    banana: '<span style="color:yellow">我是 banana</span>',
-    shoppingCart:[
-      {
-        charge1:{name:'iphone6',price:4000,id:"001"},
-        charge2:{name:'iphone7',price:5000,id:"002"}
-
+    width:'',
+    height:''
+  },
+  components:{
+    'btn-component':{
+      template:`<div :style="style"></div >`,
+      props:['width','height'],
+      data:function () {
+        return {
+          count: 0
+        }
       },
-      {
-        charge3:{name:'iphone8',price:6000,id:"003"},
-        charge4:{name:'iphoneX',price:8000,id:"004"}
-
+      computed:{
+        style:function () {
+          return {
+            width:this.width+'px',
+            background:'red',
+            height:this.height +'px'
+          }
+        }
       }
-    ]
+    },
+
   },
   filters: {
-    formatDate: function(value, a, b) {
-      // var date = new Date(value)
-      var year = value.getFullYear()
-      var month = plusDate(value.getMonth() + 1)
-      console.log(value.getMonth() + 1)
-
-      var day = plusDate(value.getDate())
-      var hour = plusDate(value.getHours())
-      var minute = plusDate(value.getMinutes())
-      var sec = plusDate(value.getSeconds())
-      console.log(
-        year + '-' + month + '-' + day + '-' + hour + ':' + minute + ':' + sec
-      )
-      return (
-        year + '-' + month + '-' + day + ' ' + hour + ':' + minute + ':' + sec
-      )
-    }
+    
   },
   methods: {
-    add: function() {
-      this.numberbutton += 1
-    }
+    // changeColor:function () {
+    //   this.gaibianyanse = !this.gaibianyanse
+
+    // },
+    // sortArr:function () {
+    //   this.names.sort(function (a, b) {
+    //     return a.length - b.length
+    //   })
+    // },
+    // reverseArr:function () {
+    //   this.names.reverse()
+    // },
+    // pressParent:function () {
+    //   alert("'I'm parent");
+    // },
+    // pressChild:function () {
+    //   alert("'I'm child");
+    // },
+    // handle:function () {
+    //   alert('handle it')
+    // }
   },
   computed:{
-    totalPrice:function () {
-      var total1 = this.shoppingCart[0].charge1.price + this.shoppingCart[0].charge2.price + this.shoppingCart[1].charge3.price + this.shoppingCart[1].charge4.price
-      return "您的商品价格总和为： " + total1
-    }
-  },
-  mounted: function() {
-    let _this = this
-    this.timer = setInterval(() => {
-      _this.date = new Date()
-      var date2 = new Date(_this.date)
-      // console.log(date2);
-    }, 1000)
-  },
-  beforeDestroy: function() {
-    if (this.timer) {
-      clearInterval(this.timer)
+    toggle:function () {
+      return {
+        className : this.gaibianyanse,
+        classColor : this.zaicigaibian
+      }
+    },
+    matchFF:function () {
+      return this.names.filter(function (item) {
+        return item.match(/ff/);
+      })
     }
   }
+  // mounted: function() {
+  //   let _this = this
+  //   this.timer = setInterval(() => {
+  //     _this.date = new Date()
+  //     var date2 = new Date(_this.date)
+  //     // console.log(date2);
+  //   }, 1000)
+  // },
+  // beforeDestroy: function() {
+  //   if (this.timer) {
+  //     clearInterval(this.timer)
+  //   }
+  // }
   // created:function () {
   //   alert('实例创建完成，还未进行挂载')
   // },
@@ -76,9 +91,9 @@ var app = new Vue({
   // }
 })
 
-function plusDate(value) {
-  return value < 10 ? '0' + value : value
-}
+// function plusDate(value) {
+//   return value < 10 ? '0' + value : value
+// }
 
 var app2 = new Vue({
   el: '#app2',
@@ -92,6 +107,11 @@ var app2 = new Vue({
       get: function() {
         return (this.fullName = this.firstName + this.lastName)
       }
+    },
+    getNextName:{
+      set: function () {
+        
+      }
     }
   },
   watch: {
@@ -102,4 +122,8 @@ var app2 = new Vue({
       this.fullName = this.firstName + '' + val
     }
   }
+})
+
+new Vue({
+
 })

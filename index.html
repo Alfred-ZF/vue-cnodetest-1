@@ -1,25 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Document</title>
-  <style>
-    .nameChanged{
-      color: red;
-    }
-  </style>
-</head>
-<body>
-  <div id="app">
-    <!-- {{date | formatDate()}}<br>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <style>
+      body {
+        position: relative;
+      }
+      .nameChanged {
+        color: red;
+      }
+      .className {
+        color: color;
+        background-color: brown;
+      }
+
+      .buttonList {
+        color: red;
+      }
+      .parent {
+        width: 100px;
+        height: 100px;
+        background: blue;
+      }
+      [v-cloak] {
+        display: none;
+      }
+
+      #app {
+        position: absolute;
+        display: block;
+        width: 600px;
+        height: 300px;
+        border: 2px solid black;
+        left: 50%;
+        right: 0;
+        top: 50%;
+        bottom: 0;
+        transform: translate(-50%, 70%);
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <!-- {{date | formatDate()}}<br>
     <button v-on:click="add()">{{numberbutton}}</button><br>
     <span v-text="apple" v-bind:class="className"></span><br>
     <span v-html="banana"></span> -->
-    <label for="">{{totalPrice}}</label>
-  </div>
-  <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
-  <script src="./main.js"></script>
-</body>
+      <!-- <label for="">{{totalPrice}}</label> -->
+
+      <!-- <input type="button" value="尝试改变颜色" v-bind:class="[{'className':gaibianyanse},isTrue]" v-on:click="changeColor"> -->
+      <!-- <ul>
+      <li v-for="(name,index) in names" v-cloak>{{index+1}}.{{name}}</li>
+    </ul>
+    <button @click="sortArr()" v-cloak>点击重新排列</button>
+    <button @click="reverseArr()" v-cloak>点击重新布置</button>
+    <p v-cloak>{{matchFF}}</p> -->
+
+      <!-- <div class="parent" @click.self="pressParent()">
+      <button @click.stop="pressChild()" v-cloak>点击我</button>
+    </div>
+
+    <form action="" @submit.prevent="handle()">
+      <input type="submit" value="">提交
+    </form> -->
+      <!-- <parent-component message="我是父组件传递进来的数据"></parent-component>
+
+      <input type="text" v-model="width" /><br />
+      <btn-component :width="width"></btn-component> -->
+      <!-- <div>总数为：{{ total }}</div> -->
+      <!-- <computed-component @change="totalnum"></computed-component> -->
+      <!-- <computed-component v-model="total"></computed-component> -->
+
+      <!-- @@@向子组件获取数据 -->
+      <!-- <my-acomponent ref="a"></my-acomponent>
+      <my-bcomponent ref="b"></my-bcomponent>
+      <child-component ref="c"></child-component><br>
+      <button @click="getChildData">点击我获取子组件内容</button>
+      {{dataform}} -->
+
+      <!-- @@@单个插槽 -->
+      <!-- <my-component> -->
+      <!-- <p>我是父组件的内容</p> -->
+
+      <!-- </my-component> -->
+
+      <!-- @@@具名插槽 -->
+      <!-- <my-component>
+        <h1 slot="header">我是父组件的标题</h1>
+        <p>我是父组件的内容</p>
+        <p>我是父组件的内容</p>
+        <p slot="footer">我是底部的内容</p>
+      </my-component> -->
+
+      <!-- @@@z作用域插槽 -->
+      <!-- <my-component> -->
+      <!-- 2.5.0之前的做法 -->
+      <!-- <template slot="abc" slot-scope="zidingyiname">
+          {{zidingyiname.text}}<br>
+          {{zidingyiname.sss}}
+        </template> -->
+
+      <!-- 2.5.0 之后可以这样做 -->
+      <!-- <p slot="abc" slot-scope="zidingyiname">
+          {{zidingyiname.text}}<br>
+          {{zidingyiname.sss}}
+        </p> -->
+      <!-- </my-component> -->
+
+      <!-- @@@访问插槽 -->
+      <!-- <my-component>
+          <h1 slot="header">我是父组件的标题</h1>
+          <p>我是父组件的内容</p>
+          <p>我是父组件的内容</p>
+          <p slot="footer">我是底部的内容</p>
+      </my-component> -->
+
+
+      <!-- @@@动态组件 -->
+      <!-- <component :is="thisView"></component>
+      <button @click="handlecom('a')">1</button>
+      <button @click="handlecom('b')">2</button>
+      <button @click="handlecom('c')">3</button>
+      <button @click="handlecom('d')">4</button> -->
+
+      <!-- @@@自定义指令 -->
+      <div id="app-command" v-focus:foo.a.b="message"></div>
+    </div>
+    <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
+    <!-- <script src="./main.js"></script> -->
+    <script>
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     bus: new Vue()
+      //   }
+      // components: {
+      //用 v-model 绑定数据,传入子组件中
+      // 'btn-component': {
+      //   template: `<div :style="style"></div >`,
+      //   props: ['width'],
+      //   data: function() {
+      //     //data 一定是个函数，而且需要 return 一个对象
+      //     return {
+      //       count: 0
+      //     }
+      //   },
+      //   computed: {
+      //     style: function() {
+      //       return {
+      //         width: this.width + 'px',
+      //         background: 'red',
+      //         height: '30px'
+      //       }
+      //     }
+      //   }
+      // },
+      // 'parent-component': {
+      //   //利用父组件传递进来的参数，保存在 data 中，并且另外赋值给新的变量，以后再用这个参数的时候就可以使用新的变量
+        // props: {
+        //   propA:Number,
+        //   propB:[String,Boolean],
+        //   propC:{
+        //     type: Number,
+        //     default:123
+        //   }
+        // }
+      //   template: `<div> {{count}}</div>`,
+      //   data: function() {
+      //     return {
+      //       count: this.message //核心在这里，通过赋值给一个初始值，方便以后的调用
+      //     }
+      //   }
+      // },
+      // 'computed-component': {
+      //   template: `
+      //   <div>
+      //     <button @click="increaseNum">加2000</button>
+      //     <button @click="decreaseNum">减2000</button>
+      //   </div>
+      //   `,
+      // data: function(){
+      //   return {
+      //     total: 2000
+      //   }
+      // },
+      //   methods: {
+      //     increaseNum: function() {
+      //       app.total += 2000
+      //       this.$emit('input', app.total)
+      //     },
+      //     decreaseNum: function() {
+      //       app.total -= 2000
+      //       this.$emit('input', app.total)
+      //     }
+      //   },
+      //   computed: {}
+      // }
+      // },
+      // methods: {
+      // totalnum: function(value) {
+      //   this.total = value
+      // }
+      // }
+      // })
+
+      //---组件间相互通信
+      // Vue.component('my-acomponent',{
+      //   template:'<div><button @click="transdata"> 点击我向 b 组件传递数据 </button></div>',
+      //   data:function () {
+      //     return {
+      //       aaa:'我是 a 组件的最重要的数据'
+      //     }
+      //   },
+      //   methods:{
+      //     transdata:function(){
+      //       this.$root.bus.$emit('lala', this.aaa)
+      //     }
+      //   }
+      // })
+
+      // Vue.component('my-bcomponent',{
+      //   template:'<div></div>',
+      //   created:function(){
+      //       this.$root.bus.$on('lala', function (value) {
+      //         alert(value)
+      //       })
+      //   }
+      // })
+
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     bus: new Vue()
+      //   }
+      // })
+
+      //---向父组件获取数据
+
+      // Vue.component('child-bcomponent', {
+      //   template: '<button @click="setDataFromFather"> 从父组件处获取数据</button>',
+      // created: function() {
+      //   this.$root.bus.$on('lala', function(value) {
+      //     alert(value)
+      //   })
+      // }
+      //   methods:{
+      //     setDataFromFather:function(){
+      //       this.$parent.msg = '哈哈哈'
+      //     }
+      //   }
+      // })
+
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     msg:'我是父组件里的内容',
+      //     bus: new Vue()
+      //   }
+      // })
+
+      //---向子组件获取数据
+
+      // Vue.component('my-acomponent',{
+      //   template:'<div><button> 点击我向 b 组件传递数据 </button></div>',
+      //   data:function () {
+      //     return {
+      //       aaa:'我是 a 组件的最重要的数据',
+      //       msg:'a组件就是我'
+      //     }
+      //   }
+      // })
+
+      // Vue.component('my-bcomponent',{
+      //   template:'<div></div>',
+      //   data:function () {
+      //     return {
+      //       msg:"b 组件就是我"
+      //     }
+      //   }
+      // })
+
+      // Vue.component('child-component', {
+      //   template: '<button> 从父组件处获取数据</button>',
+      //   data:function(){
+      //     return {
+      //       msg:"c 组件就是我"
+      //     }
+      //   }
+      // })
+
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     msg:'',
+      //     dataform:''
+      //   },
+      //   methods:{
+      //     getChildData:function(){
+      //       this.dataform = this.$refs.c.msg
+      //     }
+      //   }
+      // })
+
+      //---单个插槽
+
+      // Vue.component('my-component',{
+      //   template:`
+      //     <div>
+      //       <slot>
+      //         如果父组件不显示，那就我来显示
+      //       </slot>
+      //     <div>
+      //   `,
+
+      // })
+
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     msg:'',
+      //     dataform:''
+      //   }
+      // })
+
+      //---具名插槽
+
+      // Vue.component('my-component',{
+      //   template:`
+      //     <div>
+      //       <div class="header">
+      //           <slot name="header">
+
+      //           </slot>
+      //       </div>
+      //       <div class="container">
+      //           <slot>
+      //           </slot>
+      //       </div>
+      //       <div class="footer">
+      //           <slot name="footer">
+
+      //           </slot>
+      //       </div>
+      //     <div>
+      //   `
+      // })
+
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     msg:'',
+      //     dataform:''
+      //   }
+      // })
+
+      //---作用域插槽
+      // Vue.component('my-component', {
+      //   template: `
+      //     <div>
+      //         <slot text="我是子组件 slot 内的内容，需要被显示出来" sss="我是打酱油的" name="abc">
+      //       </slot>
+
+      //     <div>
+      //   `
+      // })
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     msg: '',
+      //     dataform: ''
+      //   }
+      // })
+
+      //---访问插槽 $slot
+      // Vue.component('my-component', {
+      //   template: `
+      //     <div>
+      //       <div class="header">
+      //           <slot name="header">
+      //             nihaoa,woshizhangfan 
+      //           </slot>
+      //       </div>
+      //       <div class="container">
+      //           <slot>
+      //               nihaoa,woshizhangfan
+      //           </slot>
+      //       </div>
+      //       <div class="footer">
+      //           <slot name="footer">
+      //               nihaoa,woshizhangfan
+      //           </slot>
+      //       </div>
+      //     <div>
+      //   `,
+      //   mounted: function() {
+      //     var header = this.$slots.header //只能访问在 html 文件中的 slot标签中的 name，不是组件中template 中slot 的 name 属性。
+      //     var text = header[0].elm.innerText
+      //     console.log(text);
+          
+      //     console.log(header)
+      //   }
+      // })
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     msg: '',
+      //     dataform: ''
+      //   }
+      // })
+
+
+      // ---动态组件
+
+      // Vue.component('compa', {
+      //   template: `
+      //     <div>111</div>
+      //   `,
+      //   props: {
+      //     propA:Number,
+      //     propB:[String,Boolean],
+      //     propC:{
+      //       type: Number,
+      //       default:123
+      //     },
+      //     propD:{
+      //       type: Boolean,
+      //       required:true,
+      //       default: false
+      //     },
+      //     propE:{
+      //       type: Object,
+      //       default: function () {
+      //         return {
+      //           a:1,
+      //           b:2
+      //         }
+      //       }
+      //     },
+      //     propF:{
+      //       type:Array,
+      //       default:function(){
+      //         return ['aa','bb']
+      //       }
+      //     },
+      //     propG:{
+      //       validator:function(value){
+      //         return value >10
+      //       }
+      //     }
+      //   }
+      // })
+      // Vue.component('compb', {
+      //   template: `
+      //     <div>222</div>
+      //   `
+      // })
+      // Vue.component('compc', {
+      //   template: `
+      //     <div>333</div>
+      //   `
+      // })
+      // Vue.component('compd', {
+      //   template: `
+      //     <div>444</div>
+      //   `
+      // })
+      // var app = new Vue({
+      //   el: '#app',
+      //   data: {
+      //     thisView:'compa'
+      //   },
+      //   methods:{
+      //     handlecom:function(tag){
+      //       this.thisView = 'comp' + tag
+      //     }
+      //   }
+      // })
+
+
+      //---自定义指令
+      Vue.directive('focus', {
+        inserted:function(el, binding, vnode){
+          var s = JSON.stringify
+          el.innerHTML=
+          'name:'   + s(binding.name)+ '<br>' +
+          'value:' +  s(binding.value)+ '<br>' +
+      'expression:' + s(binding.expression)+ '<br>' +
+      'argument: ' +  s(binding.arg)+ '<br>' +
+     'modifiers:' +  s(binding.modifiers) + '<br>' +
+      'vnode keys:' + Object.keys(vnode).join(', ')
+          
+
+        }
+      })
+
+      var app = new Vue({
+        el: '#app-command',
+        data: {
+          msg: '',
+          message: 'hello'
+        }
+      })
+      var app = new Vue({
+        el: '#app',
+        data: {
+          msg: '',
+          dataform: 'hello'
+        }
+      })
+    </script>
+  </body>
 </html>
