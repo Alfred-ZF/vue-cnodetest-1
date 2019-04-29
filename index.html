@@ -118,7 +118,6 @@
           <p slot="footer">我是底部的内容</p>
       </my-component> -->
 
-
       <!-- @@@动态组件 -->
       <!-- <component :is="thisView"></component>
       <button @click="handlecom('a')">1</button>
@@ -127,8 +126,47 @@
       <button @click="handlecom('d')">4</button> -->
 
       <!-- @@@自定义指令 -->
-      <div id="app-command" v-focus:foo.a.b="message"></div>
+      <!-- <div id="app-command" v-focus:foo.a.b="message"></div> -->
+
+      <!-- @@@render 函数初体验 -->
+      <!-- <child v-bind:value="value">
+        我是不同字体大小的标签
+      </child> -->
+
+      <!-- @@@this.$slots 在render 函数中的应用 -->
+      <!-- <my-component>
+        <p>锄禾日当午</p>
+        <p>汗滴禾下土</p>
+        <h1 slot="header">我是 header</h1>
+        <h3 slot="footer">我是 footer</h3>
+      </my-component> -->
+
+      <!-- @@@render 函数中props 传递数据 -->
+      <!-- <button @click="showimg">点击切换图片</button>{{ showit }}
+      <my-component :showit="showit"> </my-component> -->
+
+
+      <!-- @@@作用域插槽在 render 中的使用 -->
+      <!-- <my-component>
+        <template scope="prop">
+          {{prop.text}}
+          {{prop.msg}}
+        </template>
+      </my-component> -->
     </div>
+    <!-- <template id="home">
+        <div>
+        <h1 v-if='value==1'>
+          <slot></slot>
+        </h1>
+        <h2 v-if='value==2'>
+          <slot></slot>
+        </h2>
+        <h3 v-if='value==3'>
+          <slot></slot>
+        </h3>
+      </div>
+      </template> -->
     <script src="https://cdn.bootcss.com/vue/2.6.10/vue.min.js"></script>
     <!-- <script src="./main.js"></script> -->
     <script>
@@ -160,14 +198,14 @@
       // },
       // 'parent-component': {
       //   //利用父组件传递进来的参数，保存在 data 中，并且另外赋值给新的变量，以后再用这个参数的时候就可以使用新的变量
-        // props: {
-        //   propA:Number,
-        //   propB:[String,Boolean],
-        //   propC:{
-        //     type: Number,
-        //     default:123
-        //   }
-        // }
+      // props: {
+      //   propA:Number,
+      //   propB:[String,Boolean],
+      //   propC:{
+      //     type: Number,
+      //     default:123
+      //   }
+      // }
       //   template: `<div> {{count}}</div>`,
       //   data: function() {
       //     return {
@@ -207,7 +245,7 @@
       // }
       // })
 
-      //---组件间相互通信
+      //--- 组件间相互通信
       // Vue.component('my-acomponent',{
       //   template:'<div><button @click="transdata"> 点击我向 b 组件传递数据 </button></div>',
       //   data:function () {
@@ -238,7 +276,7 @@
       //   }
       // })
 
-      //---向父组件获取数据
+      //--- 向父组件获取数据
 
       // Vue.component('child-bcomponent', {
       //   template: '<button @click="setDataFromFather"> 从父组件处获取数据</button>',
@@ -326,7 +364,7 @@
       //   }
       // })
 
-      //---具名插槽
+      //--- 具名插槽
 
       // Vue.component('my-component',{
       //   template:`
@@ -357,7 +395,7 @@
       //   }
       // })
 
-      //---作用域插槽
+      //--- 作用域插槽
       // Vue.component('my-component', {
       //   template: `
       //     <div>
@@ -375,13 +413,13 @@
       //   }
       // })
 
-      //---访问插槽 $slot
+      //--- 访问插槽 $slot
       // Vue.component('my-component', {
       //   template: `
       //     <div>
       //       <div class="header">
       //           <slot name="header">
-      //             nihaoa,woshizhangfan 
+      //             nihaoa,woshizhangfan
       //           </slot>
       //       </div>
       //       <div class="container">
@@ -400,7 +438,7 @@
       //     var header = this.$slots.header //只能访问在 html 文件中的 slot标签中的 name，不是组件中template 中slot 的 name 属性。
       //     var text = header[0].elm.innerText
       //     console.log(text);
-          
+
       //     console.log(header)
       //   }
       // })
@@ -412,8 +450,7 @@
       //   }
       // })
 
-
-      // ---动态组件
+      // --- 动态组件
 
       // Vue.component('compa', {
       //   template: `
@@ -480,37 +517,133 @@
       //   }
       // })
 
-
       //---自定义指令
-      Vue.directive('focus', {
-        inserted:function(el, binding, vnode){
-          var s = JSON.stringify
-          el.innerHTML=
-          'name:'   + s(binding.name)+ '<br>' +
-          'value:' +  s(binding.value)+ '<br>' +
-      'expression:' + s(binding.expression)+ '<br>' +
-      'argument: ' +  s(binding.arg)+ '<br>' +
-     'modifiers:' +  s(binding.modifiers) + '<br>' +
-      'vnode keys:' + Object.keys(vnode).join(', ')
+      //   Vue.directive('focus', {
+      //     inserted:function(el, binding, vnode){
+      //       var s = JSON.stringify
+      //       el.innerHTML=
+      //       'name:'   + s(binding.name)+ '<br>' +
+      //       'value:' +  s(binding.value)+ '<br>' +
+      //   'expression:' + s(binding.expression)+ '<br>' +
+      //   'argument: ' +  s(binding.arg)+ '<br>' +
+      //  'modifiers:' +  s(binding.modifiers) + '<br>' +
+      //   'vnode keys:' + Object.keys(vnode).join(', ')
+      //     }
+      //   })
+
+      //   var app = new Vue({
+      //     el: '#app-command',
+      //     data: {
+      //       msg: '',
+      //       message: 'hello'
+      //     }
+      //   })
+      //   var app = new Vue({
+      //     el: '#app',
+      //     data: {
+      //       msg: '',
+      //       dataform: 'hello'
+      //     }
+      //   })
+
+      //---render 函数初体验：
+      //传统方式：
+      // Vue.component('child',{
+      //   template:'#home',
+      //   props:['value']
+
+      // })
+
+      //--- render 方式：
+      // Vue.component('child', {
+      //   render: function(createElement) {
+      //     return createElement('h' + this.value, this.$slots.default)
+      //   },
+      //   props: ['value']
+      // })
+
+      // var app = new Vue({
+      //                             //顺序！！！！！实例化的步骤 要放在 定义组件之后进行！不能放在之前
+      //   el: '#app',
+      //   data: {
+      //     value: 1
+      //   }
+      // })
+
+      //--- this.$slots 的应用方式：
+      // Vue.component('my-component', {
+      //   render: function(createElement) {
+
+      //     var header = this.$slots.header
+      //     var footer = this.$slots.footer
+      //     var main = this.$slots.default
+      //     console.log(header);
+
+      //     return createElement('div',[
+      //       createElement('header',header),
+      //       createElement('main',main),
+      //       createElement('footer',footer),
+      //     ])
+      //   }
+      // })
+      // var app = new Vue({                       //顺序！！！！！实例化的步骤 要放在 定义组件之后进行！不能放在之前
+      //   el: '#app',
+      //   data: {
+      //     value: 1
+      //   }
+      // })
+
+      //--- render函数中使用 props 传递数据：
+      // Vue.component('my-component', {
+      //   render: function(createElement) {
+      //     var picture
+      //     if (this.showit) {
+      //       picture = './img/WechatIMG9.jpg'
+      //     } else {
+      //       picture = './img/WechatIMG13.png'
+      //     }
+      //     return createElement('img', {
+      //       attrs: {
+      //         src: picture
+      //       },
+      //       style: {
+      //         width: '300px'
+      //       }
+      //     })
+      //   },
+      //   props: ['showit']
+      // })
+      // var app = new Vue({
+      //   //顺序！！！！！实例化的步骤 要放在 定义组件之后进行！不能放在之前
+      //   el: '#app',
+      //   data: {
+      //     showit: false
+      //   },
+      //   methods: {
+      //     showimg: function() {
+      //       this.showit = !this.showit
+      //     }
+      //   }
+      // })
+
+
+      //--- 作用域插槽在 render 中的使用：
+      // Vue.component('my-component', {
+      //   render: function(createElement) {
+      //     return createElement('div',this.$scopedSlots.default({  //是 scopedSlots !  .default
+      //       text:'123456',
+      //       msg:'7890'
+      //     }))
+      //   }
+        
+      // })
+      // var app = new Vue({
+      //   //顺序！！！！！实例化的步骤 要放在 定义组件之后进行！不能放在之前
+      //   el: '#app',
+      //   data: {
           
-
-        }
-      })
-
-      var app = new Vue({
-        el: '#app-command',
-        data: {
-          msg: '',
-          message: 'hello'
-        }
-      })
-      var app = new Vue({
-        el: '#app',
-        data: {
-          msg: '',
-          dataform: 'hello'
-        }
-      })
+      //   }
+      // })
     </script>
   </body>
 </html>
